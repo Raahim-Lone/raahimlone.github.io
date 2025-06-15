@@ -6,11 +6,9 @@
   <title>Raahim Lone</title>
 
   <style>
-    /* Reset & Base */
     *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body           { height: 100%; font-family: system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height: 1.6; color: #222; }
 
-    /* ---------- Dynamic Background ---------- */
     body::before {
       content: "";
       position: fixed;
@@ -27,13 +25,12 @@
       background: rgba(255,255,255,0.20);
       z-index: -1;
     }
-
+    
     @keyframes bgZoom {
       from { transform: scale(1);   }
       to   { transform: scale(1.06);}
     }
 
-    /* ---------- Card Entrance & Hover ---------- */
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-24px); }
       to   { opacity: 1; transform: translateY(0);      }
@@ -45,7 +42,7 @@
       justify-content: center;
       padding: 2rem;
       min-height: 100%;
-      perspective: 1000px;              /* slight 3-D for tilt */
+      perspective: 1000px;            
     }
 
     .card {
@@ -62,23 +59,19 @@
       transform-style: preserve-3d;
     }
 
-    /* Subtle “lift” & tilt on hover */
     .card:hover {
       transform: translateY(-6px) rotateX(6deg);
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     }
 
-    /* ---------- Staggered Content Reveal ---------- */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0);    }
     }
-    /* Select only direct children inside .card */
     .card > * {
       opacity: 0;
       animation: fadeUp 0.8s ease-out forwards;
     }
-    /* Delay each successive element a bit for a nice stagger */
     .card > *:nth-child(1) { animation-delay: .3s; }
     .card > *:nth-child(2) { animation-delay: .45s;}
     .card > *:nth-child(3) { animation-delay: .6s; }
@@ -86,7 +79,6 @@
     .card > *:nth-child(5) { animation-delay: .9s; }
     .card > *:nth-child(6) { animation-delay: 1.05s;}
 
-    /* ---------- Typography ---------- */
     h1 { font-size: 2.5rem; margin-bottom: .25em; color: #111; }
     h2 { font-size: 1.3rem; margin: 2rem 0 .75rem; color: #333; display: flex; align-items: center; gap: 0.5rem; }
     p, li { font-size: 1rem; margin-bottom: 0.5rem; }
@@ -96,7 +88,6 @@
       text-decoration: none;
       position: relative;
     }
-    /* Animated underline */
     a::after {
       content: '';
       position: absolute;
@@ -109,7 +100,6 @@
     }
     a:hover::after { transform-origin: left; transform: scaleX(1); }
 
-    /* ---------- Helpers ---------- */
     .text-center { text-align: center; }
     .avatar {
       width: 88px;
@@ -120,8 +110,13 @@
       flex-shrink: 0;
     }
     .icon  { width: 24px; height: 24px; fill: #007acc; }
+    .subtitle {
+      font-weight: 600;    
+      color: #555;           
+      font-size: 1rem;       
+      margin-top: 0.25em;     
+    }
 
-    /* ---------- Responsive ---------- */
     @media (max-width: 480px) {
       .card { padding: 2rem 1.25rem; }
       h1    { font-size: 2rem;      }
@@ -134,7 +129,10 @@
     <section class="card">
       <div class="text-center" style="margin-bottom:1.5rem;">
         <h1>Raahim Lone</h1>
-        <p>Student Researcher and Developer</p>
+        <div class="text-center" style="margin-bottom:1.5rem;">
+          <h1>Raahim Lone</h1>
+          <p class="subtitle">Student Researcher and Developer</p>
+        </div>
       </div>
 
       <p style="margin-top:1.5rem; color:#444;">Hi, I’m Raahim Lone, a sophomore in high school. I am broadly interested in databases and learned query optimization, machine learning for differential equations, and parallel / distributed computing.</p>
@@ -147,7 +145,13 @@
         </a>
       </h2>
       <ul>
-        <li><strong>DataSwift</strong> – open-source AI-enhanced query optimizer. <a href="Extended_Abstract" target="_blank">Extended&nbsp;Abstract&nbsp;↗</a>.</li>
+        <li>
+          <strong>
+            <a href="https://github.com/Raahim-Lone/DataSwift" target="_blank">DataSwift</a>
+          </strong>
+          – open-source AI-enhanced query optimizer. 
+          <a href="Extended_Abstract" target="_blank">Extended Abstract ↗</a>.
+        </li>
         <li><strong>EncODE</strong> – accelerating ordinary differential equation solvers with ML; code release and paper coming soon.</li>
         <li><strong>Dask</strong> – contributor to this amazing Python library for parallel computing.</li>
       </ul>
