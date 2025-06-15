@@ -4,12 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Raahim Lone</title>
+
   <style>
     /* Reset & Base */
     *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #222; }
+    html, body           { height: 100%; font-family: system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height: 1.6; color: #222; }
 
-    /* Hero Background */
+    /* ---------- Dynamic Background ---------- */
     body::before {
       content: "";
       position: fixed;
@@ -17,54 +18,99 @@
       background: url("image.jpg") center/cover no-repeat;
       filter: blur(8px) brightness(1.1);
       z-index: -2;
+      animation: bgZoom 28s ease-in-out infinite alternate;
     }
     body::after {
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.20);
       z-index: -1;
     }
 
-    /* Animation */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes bgZoom {
+      from { transform: scale(1);   }
+      to   { transform: scale(1.06);}
     }
 
-    /* Centering Container */
+    /* ---------- Card Entrance & Hover ---------- */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-24px); }
+      to   { opacity: 1; transform: translateY(0);      }
+    }
+
     .wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 2rem;
       min-height: 100%;
+      perspective: 1000px;              /* slight 3-D for tilt */
     }
 
-    /* Glassmorphism Card */
     .card {
       width: 100%;
       max-width: 820px;
       padding: 3rem 2.5rem;
-      background: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.72);
       border: 1px solid rgba(0,0,0,0.1);
       border-radius: 1rem;
       box-shadow: 0 12px 32px rgba(0,0,0,0.2);
       backdrop-filter: blur(10px) saturate(180%);
-      animation: fadeInDown 0.8s ease-out;
+      animation: fadeInDown 0.9s cubic-bezier(.4,.75,.3,1);
+      transition: transform .25s ease, box-shadow .25s ease;
+      transform-style: preserve-3d;
     }
 
-    /* Typography */
-    h1 { font-size: 2.5rem; margin-bottom: 0.25em; color: #111; }
-    h2 { font-size: 1.3rem; margin: 2rem 0 0.75rem; color: #333; display: flex; align-items: center; gap: 0.5rem; }
+    /* Subtle “lift” & tilt on hover */
+    .card:hover {
+      transform: translateY(-6px) rotateX(6deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    /* ---------- Staggered Content Reveal ---------- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    /* Select only direct children inside .card */
+    .card > * {
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out forwards;
+    }
+    /* Delay each successive element a bit for a nice stagger */
+    .card > *:nth-child(1) { animation-delay: .3s; }
+    .card > *:nth-child(2) { animation-delay: .45s;}
+    .card > *:nth-child(3) { animation-delay: .6s; }
+    .card > *:nth-child(4) { animation-delay: .75s;}
+    .card > *:nth-child(5) { animation-delay: .9s; }
+    .card > *:nth-child(6) { animation-delay: 1.05s;}
+
+    /* ---------- Typography ---------- */
+    h1 { font-size: 2.5rem; margin-bottom: .25em; color: #111; }
+    h2 { font-size: 1.3rem; margin: 2rem 0 .75rem; color: #333; display: flex; align-items: center; gap: 0.5rem; }
     p, li { font-size: 1rem; margin-bottom: 0.5rem; }
     ul { margin-left: 1.25rem; list-style: disc; }
-    a { color: #007acc; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.25s; }
-    a:hover { border-color: #007acc; }
+    a {
+      color: #007acc;
+      text-decoration: none;
+      position: relative;
+    }
+    /* Animated underline */
+    a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 100%; height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .3s ease;
+    }
+    a:hover::after { transform-origin: left; transform: scaleX(1); }
 
-    /* Layout Helpers */
-    .flex-center { display: flex; align-items: center; }
-    .gap { gap: 0.75rem; }
+    /* ---------- Helpers ---------- */
+    .text-center { text-align: center; }
     .avatar {
       width: 88px;
       height: 88px;
@@ -73,48 +119,51 @@
       box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
       flex-shrink: 0;
     }
-    .icon {
-      width: 24px;
-      height: 24px;
-      fill: #007acc;
-      vertical-align: middle;
-    }
+    .icon  { width: 24px; height: 24px; fill: #007acc; }
 
-    /* Responsive */
+    /* ---------- Responsive ---------- */
     @media (max-width: 480px) {
       .card { padding: 2rem 1.25rem; }
-      h1 { font-size: 2rem; }
+      h1    { font-size: 2rem;      }
     }
   </style>
 </head>
+
 <body>
   <main class="wrapper">
     <section class="card">
       <div class="text-center" style="margin-bottom:1.5rem;">
         <h1>Raahim Lone</h1>
+        <p>Student Researcher and Developer</p>
       </div>
 
       <p style="margin-top:1.5rem; color:#444;">Hi, I’m Raahim Lone, a sophomore in high school. I am broadly interested in databases and learned query optimization, machine learning for differential equations, and parallel / distributed computing.</p>
 
       <h2>What I’m Building
         <a href="https://github.com/Raahim-Lone" target="_blank" aria-label="GitHub">
-          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.53 7.53 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.08-1.87 3.76-3.65 3.96.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.63-.18 1.32-.27 2-.27s1.37.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.08-1.87 3.76-3.65 3.96.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+        </a>
       </h2>
       <ul>
-        <li><strong>DataSwift</strong> – open-source AI-enhanced query optimizer. <a href="Extended_Abstract" target="_blank">Extended Abstract ↗</a>.</li>
-        <li><strong>EncODE</strong> – accelerating orindary differential equations solvers with ML; code release and paper coming soon.</li>
+        <li><strong>DataSwift</strong> – open-source AI-enhanced query optimizer. <a href="Extended_Abstract" target="_blank">Extended&nbsp;Abstract&nbsp;↗</a>.</li>
+        <li><strong>EncODE</strong> – accelerating ordinary differential equation solvers with ML; code release and paper coming soon.</li>
         <li><strong>Dask</strong> – contributor to this amazing Python library for parallel computing.</li>
       </ul>
 
       <h2>Awards &amp; Recognition</h2>
       <ul>
-        <li>41st Cohort - Emergent Ventures Grant</li>
+        <li>41st Cohort – Emergent Ventures Grant</li>
         <li>Diamond Challenge Finalist</li>
         <li>Conrad Innovator Rank</li>
         <li><a href="https://www.arabnews.com/sites/default/files/pdf/50178/index.html" target="_blank">Arab News Front Cover ↗</a></li>
       </ul>
 
-      <p style="margin-top:2rem; font-weight:600; color:#444;">I’m always excited to meet new people! Reach me at <a href="mailto:raahimlone@gmail.com">raahimlone@gmail.com</a>.</p>
+      <p style="margin-top:2rem; font-weight:600; color:#444;">
+        I’m always excited to meet new people! Reach me at
+        <a href="mailto:raahimlone@gmail.com">raahimlone@gmail.com</a>.
+      </p>
     </section>
   </main>
 </body>
